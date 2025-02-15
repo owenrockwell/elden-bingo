@@ -62,7 +62,7 @@ button {
     flex: 1;
 }
 
-#free, label:has(#free) {
+label:nth-child(13) {
     color: black;
     background: gold;
     pointer-events: none;

@@ -1,4 +1,5 @@
 const appName = 'EldenBingo';
+const freePark = 12;
 let container;
 let nav;
 
@@ -17,7 +18,7 @@ function restart() {
 
 function reset() {
     cards.forEach(card => card.checked = false);
-    cards[12].checked = true;
+    cards[freePark].checked = true;
     save();
     restart();
 }
@@ -27,7 +28,10 @@ function createCard(card, index) {
     checkbox.type = 'checkbox';
     checkbox.checked = card.checked;
     checkbox.id = index;
-    checkbox.onclick = () => {
+    checkbox.onclick = e => {
+        if (checkbox.id == freePark) {
+            e.preventDefault();
+        }
         cards[checkbox.id].checked = checkbox.checked;
         save();
         validate();
@@ -63,14 +67,14 @@ function createButton(delegate) {
 
 function randomise() {
     if (cards.length > 24) { 
-        cards.splice(12, 1) //remove free parking
+        cards.splice(freePark, 1)
     }
     
     cards.forEach((_, i) => {
         const randomIndex = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[randomIndex]] = [cards[randomIndex], cards[i]];
     });
-    cards.splice(12, 0, freeParking) //replace it
+    cards.splice(freePark, 0, freeParking)
     save();
 }
 
