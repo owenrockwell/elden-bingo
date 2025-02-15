@@ -6,9 +6,6 @@ function init() {
     createLayout();
     load();
     cards.forEach((card, index) => {
-        if (index === 12) {
-            createCard(freeParking, "free")
-        } 
         createCard(card, index);
     })
 }
@@ -20,6 +17,7 @@ function restart() {
 
 function reset() {
     cards.forEach(card => card.checked = false);
+    cards[12].checked = true;
     save();
     restart();
 }
@@ -32,6 +30,7 @@ function createCard(card, index) {
     checkbox.onclick = () => {
         cards[checkbox.id].checked = checkbox.checked;
         save();
+        validate();
     }
 
     const label = document.createElement("label")
@@ -63,10 +62,12 @@ function createButton(delegate) {
 }
 
 function randomise() {
+    cards.splice(12, 1) //remove free parking
     cards.forEach((_, i) => {
         const randomIndex = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[randomIndex]] = [cards[randomIndex], cards[i]];
     });
+    cards.splice(12, 0, freeParking) //replace it
     save();
 }
 
@@ -82,6 +83,42 @@ function load() {
 function save() {
     localStorage.setItem(appName, JSON.stringify(cards))
 }
+
+
+function bingo() {
+    const gridSize = 5;
+    let board = [];
+
+    for (let i = 0; i < gridSize; i++) {
+        board.push(cards.slice(i * gridSize, (i + 1) * gridSize).map(card => card.checked));
+    }
+
+    // Check rows
+    for (let row of board) {
+        if (row.every(cell => cell)) {
+            return true;
+        }
+    }
+
+    // Check columns
+    for (let col = 0; col < gridSize; col++) {
+        if (board.every(row => row[col])) {
+            return true;
+        }
+    }
+
+    // Check diagonals
+    if (board.every((row, i) => row[i])) return true;
+    if (board.every((row, i) => row[gridSize - 1 - i])) return true;
+
+    return false;
+}
+
+function validate(){
+    if (bingo())
+        window.alert("YOU DID IT!")
+}
+
 
 const freeParking = {text: "Jan has his last chemo and shits his pants", checked: true};
 let cards = [
