@@ -32,6 +32,13 @@ function createCard(card, index) {
             cards[freeParking.id].checked = true;
             e.preventDefault();
         }
+
+        if (checkbox.checked) {
+            const mlg = new Audio('mlg-airhorn.mp3');
+            mlg.volume = 0.05;
+            mlg.play();
+        }
+
         cards[checkbox.id].checked = checkbox.checked;
         save();
         validate();
