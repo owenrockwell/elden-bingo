@@ -1,5 +1,4 @@
 const appName = 'EldenBingo';
-const freePark = 12;
 let container;
 let nav;
 
@@ -18,7 +17,7 @@ function restart() {
 
 function reset() {
     cards.forEach(card => card.checked = false);
-    cards[freePark].checked = true;
+    cards[freeParking.id].checked = true;
     save();
     restart();
 }
@@ -28,8 +27,9 @@ function createCard(card, index) {
     checkbox.type = 'checkbox';
     checkbox.checked = card.checked;
     checkbox.id = index;
-    checkbox.onclick = e => {
-        if (checkbox.id == freePark) {
+    checkbox.onclick = (e) => {
+        if (checkbox.id == freeParking.id) {
+            cards[freeParking.id].checked = true;
             e.preventDefault();
         }
         cards[checkbox.id].checked = checkbox.checked;
@@ -67,14 +67,14 @@ function createButton(delegate) {
 
 function randomise() {
     if (cards.length > 24) { 
-        cards.splice(freePark, 1)
+        cards.splice(freeParking.id, 1)
     }
     
     cards.forEach((_, i) => {
         const randomIndex = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[randomIndex]] = [cards[randomIndex], cards[i]];
     });
-    cards.splice(freePark, 0, freeParking)
+    cards.splice(freeParking.id, 0, freeParking)
     save();
 }
 
@@ -129,7 +129,7 @@ function validate(){
 }
 
 
-const freeParking = {text: "Jan has his last chemo and shits his pants", checked: true};
+const freeParking = {text: "Jan has his last chemo and shits his pants", checked: true, id: 12};
 let cards = [
     {text: "Spends 10 or more minutes trying fruitlessly to fight the Tree Sentinel.", checked: false},
     {text: "Kills and important NPC on purpose or on accident.", checked: false},
