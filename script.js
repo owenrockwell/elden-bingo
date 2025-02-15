@@ -62,7 +62,10 @@ function createButton(delegate) {
 }
 
 function randomise() {
-    cards.splice(12, 1) //remove free parking
+    if (cards.length > 24) { 
+        cards.splice(12, 1) //remove free parking
+    }
+    
     cards.forEach((_, i) => {
         const randomIndex = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[randomIndex]] = [cards[randomIndex], cards[i]];
@@ -115,9 +118,10 @@ function bingo() {
 }
 
 function validate(){
-    if (bingo())
+    if (bingo()) {
         new Audio('bingo.mp3').play();
-        window.alert("YOU DID IT!")
+        window.alert("YOU DID IT!");
+    }
 }
 
 
