@@ -116,6 +116,7 @@ function bingo() {
 
 function validate(){
     if (bingo())
+        new Audio('bingo.mp3').play();
         window.alert("YOU DID IT!")
 }
 
