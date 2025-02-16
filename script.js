@@ -11,7 +11,8 @@ function init() {
 }
 
 function restart() {
-    document.body.innerHTML = '';
+    nav.remove()
+    container.remove()
     init();
 }
 
@@ -56,8 +57,9 @@ function createLayout() {
 
     document.body.append(container)
     document.body.append(nav);
-    createButton(randomise)
-    createButton(reset)
+    createButton(randomise);
+    createButton(reset);
+    customise();
 }
 
 function createButton(delegate) {
@@ -135,8 +137,7 @@ function validate(){
     }
 }
 
-
-const freeParking = {text: "Jan has his last chemo and shits his pants", checked: true, id: 12};
+let freeParking = {text: "Jan has his last chemo and shits his pants", checked: true, id: 12};
 let cards = [
     {text: "Spends 10 or more minutes trying fruitlessly to fight the Tree Sentinel.", checked: false},
     {text: "Kills and important NPC on purpose or on accident.", checked: false},
@@ -166,3 +167,24 @@ let cards = [
 
 //start it up!
 init();
+
+
+function customise() {
+    const text = document.createElement('textarea');
+    const info = document.createElement('p');
+    info.innerText = "Enter the text for your bingo cards. One line for each bingo card. The first line is free parking!";
+    const button = document.createElement('button');
+    button.onclick = () => updateCards();
+    button.textContent = "Save";
+
+    document.body.append(info);
+    document.body.append(text);
+    document.body.append(button);
+}
+
+function updateCards(){
+    const newValues = document.querySelector('textarea').value.split("\n");
+    newValues.forEach((newText, i) => cards[i].text = newText);
+    save();
+    restart();
+}

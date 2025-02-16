@@ -67,3 +67,7 @@ label:nth-child(13) {
     background: gold;
     pointer-events: none;
 }
+
+textarea {
+    height:25em;
+}
